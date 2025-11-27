@@ -6,7 +6,7 @@
 int main() {
 
 #if NDEBUG
-    vulkanApp app = new vulkanApp(true);
+    vulkanApp app = new vulkanApp(false);
 #else
     vulkanApp app = new vulkanApp(true);
 #endif
