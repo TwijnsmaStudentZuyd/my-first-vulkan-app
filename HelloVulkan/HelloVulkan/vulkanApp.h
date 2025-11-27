@@ -33,6 +33,7 @@ private:
 	VkDebugUtilsMessengerEXT debugMessenger;
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDevice device;
+	VkQueue graphicsQueue;
 
 	// Validation
 	const std::vector<const char*> validationLayers = {
@@ -313,8 +314,12 @@ private:
 
 		createInfo.pEnabledFeatures = &deviceFeatures;
 
+		// create Physical device
 		if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
 			throw std::runtime_error("failed to create logical device!");
+
+		// set queue handles
+		vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 	}
 
 };
