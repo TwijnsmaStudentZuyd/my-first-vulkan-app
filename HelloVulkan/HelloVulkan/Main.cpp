@@ -5,12 +5,15 @@
 
 int main() {
 
-
-
-    vulkanApp app;
+#if NDEBUG
+    vulkanApp app = new vulkanApp(true);
+#else
+    vulkanApp app = new vulkanApp(true);
+#endif
 
     try {
         app.run();
+
     }
     catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

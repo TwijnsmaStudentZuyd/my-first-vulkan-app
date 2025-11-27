@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="HelloVulkan/HelloVulkan.vcxproj" />
+  <Project Path="HelloVulkan/HelloVulkan.vcxproj" Id="a7f3a0f5-853a-41d3-80a2-c5d1ee4d2a1a" />
 </Solution>
