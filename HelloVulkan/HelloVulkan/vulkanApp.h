@@ -1,7 +1,10 @@
 #pragma once
 
+#define VK_USE_PLATFORM_WIN32_KHR
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
 #include <iostream>
 #include <stdexcept>
 #include <vector>
@@ -31,6 +34,7 @@ private:
 	// vulkan instance objects
 	VkInstance instance;
 	VkDebugUtilsMessengerEXT debugMessenger;
+	VkSurfaceKHR surface;
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDevice device;
 	VkQueue graphicsQueue;
@@ -47,6 +51,8 @@ private:
 
 		setupDebugMessenger();
 
+		createSurface();
+
 		pickPhysicalDevice();
 
 		createLogicalDevice();
@@ -61,6 +67,8 @@ private:
 
 	void cleanup() {
 		vkDestroyDevice(device, nullptr);
+
+		vkDestroySurfaceKHR(instance, surface, nullptr);
 
 		if (enableValidationLayers)
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
@@ -164,6 +172,12 @@ private:
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 
 		return extensions;
+	}
+
+	// bind window to vulkan surface to have vulkan interface with it
+	void createSurface() {
+		if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS)
+			throw std::runtime_error("failed to create window surface!");
 	}
 
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
